@@ -77,13 +77,13 @@ HUBSPOT_PORTAL_ID=your_portal_id
 HUBSPOT_FORM_ID=your_form_id
 ```
 
-2. Install dependencies:
+1. Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-3. Run the development server:
+1. Run the development server:
 
 ```bash
 pnpm dev
