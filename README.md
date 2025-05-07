@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HubSpot Forms Integration
+
+This project provides a seamless integration between Next.js and HubSpot forms, allowing for dynamic form rendering, validation, and submission handling. It leverages modern React patterns, TypeScript, and robust form validation to create a powerful form management system.
+
+## Architecture Overview
+
+### Configuration (`/config/hubspot.ts`)
+
+The configuration file manages HubSpot API credentials and form settings:
+
+- `accessToken`: HubSpot API access token
+- `portalId`: HubSpot portal identifier
+- `formId`: Specific form identifier to be rendered
+
+### HubSpot Service (`/lib/hubspot-service.ts`)
+
+The service layer handles all HubSpot API interactions:
+
+- `hubspotFormService`: Manages form-related operations
+  - `getFormById`: Fetches form configuration from HubSpot
+- `hubspotContactService`: Handles contact-related operations
+  - `createContact`: Creates new contacts in HubSpot
+
+### Form Component (`/components/hubspot-form.tsx`)
+
+The main form component that provides:
+
+- Dynamic form field rendering based on HubSpot configuration
+- Form validation using Zod
+- Form state management with React Hook Form
+- Real-time validation feedback
+- Customizable submission handling
+
+## Key Features
+
+### Dynamic Form Rendering
+
+The form component automatically renders fields based on HubSpot's form configuration:
+
+- Supports multiple field types (text, email, select, multiselect, number, multi-line text)
+- Handles field groups and nested structures
+- Provides customizable field labels and descriptions
+- Supports required field validation
+
+### Form Validation
+
+The project uses Zod for schema validation:
+
+- Dynamic schema generation based on form configuration
+- Type-safe validation rules
+- Custom validation messages
+- Support for complex validation rules (email, URLs, numbers)
+
+### React Hook Form Integration
+
+React Hook Form is used for form state management:
+
+- Efficient form state handling
+- Built-in performance optimizations
+- Seamless integration with Zod validation
+- Real-time validation feedback
+
+### HubSpot Integration
+
+The project provides two main server actions:
+
+1. `getHubspotForm`: Fetches form configuration from HubSpot
+2. `submitHubspotForm`: Handles form submission and contact creation
 
 ## Getting Started
 
-First, run the development server:
+1. Set up environment variables:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```env
+HUBSPOT_ACCESS_TOKEN=your_access_token
+HUBSPOT_PORTAL_ID=your_portal_id
+HUBSPOT_FORM_ID=your_form_id
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run the development server:
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```tsx
+import { HubspotForm } from "@/components/hubspot-form";
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+export default function Page() {
+  return (
+    <HubspotForm
+      formId="your-form-id"
+      onSubmissionData={(data) => {
+        console.log("Form submitted:", data);
+      }}
+      onSubmissionResponse={(response) => {
+        console.log("Submission response:", response);
+      }}
+    />
+  );
+}
+```
 
-## Deploy on Vercel
+## Form Field Types
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The component supports various field types:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Text input
+- Email input
+- Select dropdown
+- Multi-select
+- Number input
+- Multi-line text
+- Checkbox
+
+Each field type includes:
+
+- Custom validation rules
+- Required field handling
+- Error messages
+- Placeholder text
+- Field descriptions
